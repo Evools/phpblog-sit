@@ -4,6 +4,7 @@
 
 
 <?php include "./layout/header.php"; ?>
+<?php include "./layout/nav.php"; ?>
 
 <div class="wrapper">
   <h1>404</h1>
