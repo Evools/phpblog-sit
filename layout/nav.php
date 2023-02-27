@@ -1,20 +1,27 @@
 <?php
 
   $arr_link =[
-    "/"  =>  "Home",
-    "/about"  =>  "About",
-    "/blog"  =>  "Blog",
-    "/contact"  =>  "Contact",
+    "/"  =>  "Главная",
+    "/about"  =>  "О нас",
+    "/blog"  =>  "Новости",
+    "/contact"  =>  "Контакты",
   ];
 
 ?>
 
-<header class="header">
+<div class="bg-sla bg-slate-900 text-white py-4 px-2">
+  <header class="m-auto max-w-7xl flex items-center justify-between w-full">
+    <a href="/" class="text-lg font-bold">PHP-Blog</a>
 
-  <?php foreach($arr_link as $links => $value): ?>
+    <nav class="flex items-center gap-2 ml-auto">
+      <?php foreach($arr_link as $links => $value): ?>
 
-    <a href="<?= $links ?>"> <?= $value ?></a>
+        <a href="<?= $links ?>" class="px-4 py-2 bg-transparent rounded-lg transition-all hover:bg-slate-800"> <?= $value ?></a>
 
-  <?php endforeach; ?>
+      <?php endforeach; ?>
+      <a href="#" class="px-4 py-2 transition-all bg-indigo-500 hover:bg-indigo-400 rounded-lg">Войти</a>
+    </nav>
 
-</header>
+  </header>
+</div>
+
