@@ -4,12 +4,12 @@ $arr_link = [
   "/"  =>  "Главная",
   "/about"  =>  "О нас",
   "/news"  =>  "Новости",
-  "/contact"  =>  "Контакты",
+  "/contacts"  =>  "Контакты",
 ];
 
 ?>
 
-<div class="bg-sla bg-slate-900 text-white py-4 px-2">
+<div class="bg-sla bg-slate-900 text-white py-4 px-2 sticky top-0">
   <header class="m-auto max-w-7xl flex items-center justify-between w-full">
     <a href="/" class="text-lg font-bold">PHP-Blog</a>
 
