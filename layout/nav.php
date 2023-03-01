@@ -19,7 +19,7 @@ $arr_link = [
         <a href="<?= $links ?>" class="px-4 py-2 bg-transparent rounded-lg transition-all hover:bg-slate-800"> <?= $value ?></a>
 
       <?php endforeach; ?>
-      <a href="#" class="px-4 py-2 transition-all bg-indigo-500 hover:bg-indigo-400 rounded-lg">Войти</a>
+      <a href="/login" class="px-4 py-2 transition-all bg-indigo-500 hover:bg-indigo-400 rounded-lg">Войти</a>
       
     </nav>
 
