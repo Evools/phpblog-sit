@@ -10,17 +10,18 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $data = $_POST;
+$errMsg = [];
+
+  $email = $password = $confirm = "";
 
 if (isset($data['register'])) {
-
-  $errMsg = [];
-
+  
   $email = clear_field($data['email']);
   $password = clear_field($data['password']);
   $password_hash = password_hash($password, PASSWORD_DEFAULT);
   $confirm = clear_field($data['confirm']);
 
-  $errMsg = [];
+
   if (empty($email)) {
     $errMsg[] = "Поле E-Mail не должен быть пустым";
   }
@@ -36,13 +37,19 @@ if (isset($data['register'])) {
 
   if (!$errMsg) {
 
-    $requery = "INSERT INTO `users` (`email`, `password`) VALUES ('$email', '$password_hash')";
-    $result = mysqli_query($connect, $requery);
+    $sel = "SELECT * FROM `users` WHERE email = '$email'";
 
-    if (!$result) {
-      echo "Error";
+    if(!$sel){
+      $requery = "INSERT INTO `users` (`email`, `password`) VALUES ('$email', '$password_hash')";
+      $result = mysqli_query($connect, $requery);
+  
+      if (!$result) {
+        echo "Ошибказапроса";
+      } else {
+        header('location: /login');
+      }
     } else {
-      header('location: /login');
+      $errMsg[] = "Пользователь с таким E-Mail существует!";
     }
   }
 }
@@ -54,10 +61,16 @@ if (isset($data['register'])) {
 
 <section class="bg-gray-50">
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-    <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900">
-      <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
-      PHP Blog
-    </a>
+    
+    <?php if($errMsg == true): ?>
+      <div class="relative m-auto my-0 max-w-md w-full">
+        <small class="absolute bg-red-200 text-red-700 px-5 py-4 inline-block font-bold w-full -top-7 rounded-xl text-center">
+          <?= $errMsg[0]; ?>
+        </small>
+      </div>
+    <?php endif; ?>
+
+
     <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
@@ -66,24 +79,24 @@ if (isset($data['register'])) {
         <form class="space-y-4 md:space-y-6" action="register" method="POST">
           <div>
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Ваш E-Mail</label>
-            <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@company.com" required="">
+            <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@company.com" required="" value="<?= $email; ?>">
           </div>
           <div>
             <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Пароль</label>
-            <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
+            <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="" value="<?= $password; ?>">
           </div>
           <div>
             <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900">Повторить пароль</label>
-            <input type="password" name="confirm" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
+            <input type="password" name="confirm" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" value="<?= $confirm; ?>" required="">
           </div>
-          <!-- <div class="flex items-start">
+          <div class="flex items-start">
             <div class="flex items-center h-5">
               <input id="terms" aria-describedby="terms" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300" required="">
             </div>
             <div class="ml-3 text-sm">
               <label for="terms" class="font-light text-gray-500">Я принимаю <a class="font-medium text-primary-600 hover:underline" href="#">Условия и положения</a></label>
             </div>
-          </div> -->
+          </div>
           <button type="submit" name="register" class="w-full text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
             Завести аккаунт
           </button>
