@@ -14,7 +14,10 @@ get('/news', 'pages/news.php');
 get('/create-user', 'pages/create-user.php');
 get('/create-post', 'pages/create-post.php');
 
-
 get('/inner-topic', 'pages/inner-news.php');
+
+
+post('/login', 'pages/login.php');
+post('/register', 'pages/register.php');
 
 any('/404','pages/404.php');
